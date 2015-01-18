@@ -1,3 +1,11 @@
+/*
+ Title:     Initialize-Environment.ps1
+ Author:    Jourdan Templeton
+ Blog:      http://blog.jourdant.me
+ Email:     hello@jourdant.me
+ Modified:  18/01/2015 05:52PM NZDT
+*/
+
 function read(query, user, request) {
 	//check if sensor_id was passed in by the query string
     if (request.parameters.sensor_id)

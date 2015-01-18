@@ -1,6 +1,7 @@
 --
 -- Title:     Initialize-Environment.ps1
 -- Author:    Jourdan Templeton
+-- Blog:      http://blog.jourdant.me
 -- Email:     hello@jourdant.me
 -- Modified:  18/01/2015 05:52PM NZDT
 --
