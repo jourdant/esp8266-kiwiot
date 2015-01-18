@@ -1,0 +1,38 @@
+ _                       _
+| |                     | |
+| |_ ___ _ __ ___  _ __ | | ___   __ _
+| __/ _ \ '_ ` _ \| '_ \| |/ _ \ / _` |
+| ||  __/ | | | | | |_) | | (_) | (_| |
+ \__\___|_| |_| |_| .__/|_|\___/ \__, |
+                  | |             __/ |
+                  |_|            |___/
+
+ jourdan templeton - 2015
+ http://blog.jourdant.me
+
+
+    [SYS ] (HEAP)  Size: 17064
+    [FS  ] (LIST)  Listing files at /
+        'init.lua'      [1551k]
+        'program.lua'   [3051k]
+    [WIFI] (CONN)  Connecting to 'NETWORK.NAME'
+    [WIFI] (DHCP)  Waiting for IP assignment
+    [WIFI] (DHCP)  Waiting for IP assignment
+    [WIFI] (DHCP)  Waiting for IP assignment
+    [WIFI] (DHCP)  Waiting for IP assignment
+    [WIFI] (CONN)  Connected to 'NETWORK.NAME' - 10.20.30.113
+    [SYS ] (HEAP)  Size: 20112
+    [INIT] (    )  Init complete
+
+    [TLNT] (LSTN)  Listening for connections on 10.20.30.113:23
+    [TEMP] (READ)  20.625 degrees celsius
+    [HTTP] (POST)  >
+        POST /tables/temperature HTTP/1.1
+        Host: XXXXXX.azure-mobile.net
+        X-ZUMO-APPLICATION: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        Connection: close
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 30
+
+        sensor_id=2&temperature=20.625
+    [HTTP] (POST)  Complete
