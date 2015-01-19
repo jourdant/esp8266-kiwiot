@@ -3,11 +3,12 @@
 -- Author:    Jourdan Templeton
 -- Blog:      http://blog.jourdant.me
 -- Email:     hello@jourdant.me
--- Modified:  18/01/2015 05:52PM NZDT
+-- Modified:  19/01/2015 08:30PM NZDT
 --
 
 -- log() : prints out to the console in a consistent format
-function log (name, func, msg) print("    ["..name.."] ("..func..")  "..msg) end
+function log (name, func, msg)        print("    ["..name.."] ("..func..")  "..msg) end
+function log_packet (name, func, msg) print("    ["..name.."] ("..func..")  >\r\n"..msg) end
 
 -- getTemp() : Reads temperature from DS18B20 1-wire temperature sensor
 -- default to pin 4 (GPIO2) to ensure compatibility with ESP-01
@@ -44,7 +45,7 @@ function get_temp()
 						t = (data:byte(1) + data:byte(2) * 256) * 625
 						t1 = t / 10000
 						t2 = t % 10000
-						ret = t1.."."..t2..
+						ret = t1.."."..t2
 						log("TEMP", "READ", ret.." degrees celsius")
 						return ret
 					end
@@ -63,7 +64,7 @@ function http_post()
 	
 	if (temp ~= nil) then
 		sensor_id = 1
-		hostname = "XXXX.azure-mobile.net"
+		hostname = "XXXXXX.azure-mobile.net"
 		data = "sensor_id="..sensor_id.."&temperature="..temp
 		packet = "POST /tables/temperature HTTP/1.1\r\n"
 			   .."Host: "..hostname.."\r\n"
@@ -73,10 +74,10 @@ function http_post()
 			   .."Content-Length: "..string.len(data).."\r\n\r\n"	
 			   ..data
 			 
-		log("HTTP", "POST", ">\r\n"..packet.."\r\n")
+		log_packet("HTTP", "POST", packet)
 		 
 		conn=net.createConnection(net.TCP, 0)
-		conn:on("receive", function(conn, payload) log("HTTP", "RESP", ">\r\n"..payload.."\r\n") end)
+		conn:on("receive", function(conn, payload) log_packet("HTTP", "RESP", payload) end)
 		--update IP address by nslookup on your XXXX.azure-mobile.net
 		--after DNS bug is fixed, this won't be needed.
 		conn:connect(80, "XXX.XXX.XXX.XXX")
@@ -88,7 +89,11 @@ function http_post()
 end
 
 --start timer to upload temperature every 5 min
-tmr.alarm(2, 300000, 1, http_post)
+ms = 300000
+tmr.alarm(2, ms, 1, function() 
+	http_post()
+	log("SYS ", "TIMR", "Waiting for "..(ms/1000/60).." minutes")
+end)
 
 --start telnet server
 log("TLNT", "LSTN", "Listening for connections on "..wifi.sta.getip()..":23 ")
@@ -110,3 +115,4 @@ end)
 
 --post on startup
 http_post()
+log("SYS ", "TIMR", "Waiting for "..(ms/1000/60).." minutes")

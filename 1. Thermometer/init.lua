@@ -3,7 +3,7 @@
 -- Author:    Jourdan Templeton
 -- Blog:      http://blog.jourdant.me
 -- Email:     hello@jourdant.me
--- Modified:  18/01/2015 05:52PM NZDT
+-- Modified:  19/01/2015 08:27PM NZDT
 --
 
 print("init.lua")
@@ -11,9 +11,9 @@ print("")
 print(" _                       _             ")
 print("| |                     | |            ")
 print("| |_ ___ _ __ ___  _ __ | | ___   __ _ ")
-print("| __/ _ \ '_ ` _ \| '_ \| |/ _ \ / _` |")
+print("| __/ _ \\ '_ ` _ \\| '_ \\| |/ _ \\ / _` |")
 print("| ||  __/ | | | | | |_) | | (_) | (_| |")
-print(" \__\___|_| |_| |_| .__/|_|\___/ \__, |")
+print(" \\__\\___|_| |_| |_| .__/|_|\\___/ \\__, |")
 print("                  | |             __/ |")
 print("                  |_|            |___/ ")
 print("")
@@ -32,13 +32,13 @@ log("SYS ", "HEAP", "Size: "..node.heap())
 log("FS  ", "LIST", "Listing files at /")
 l = file.list()
 for k,v in pairs(l) do
-	print("        '"..k.."'   ["..v.."k]")
+	print("        "..string.format("%-15s", "'"..k.."'").."["..v.."k]")
 end
 l=nil
 
 --connect to wifi
 network = "NETWORK.NAME"
-password = "PASSWORD"
+password = "XXXXXXXXXX"
 
 log("WIFI", "CONN", "Connecting to '"..network.."'")
 wifi.setmode(wifi.STATION)
@@ -55,8 +55,18 @@ tmr.alarm(1, 1000, 1, function()
 		--launch main program
 		collectgarbage("collect")
 		log("SYS ", "HEAP", "Size: "..node.heap())
-		log("INIT", "", "Complete\r\n")
-		dofile("program.lua")
+		log("INIT", "LOAD", "Bootstrap complete")
+		
+		--run main program - if it exists
+		f = file.open("program.lua", "r")
+		if (f ~= nil) then
+			f = nil
+			file.close()
+			log("INIT", "LOAD", "Loading 'program.lua'\r\n")
+			dofile("program.lua")
+		else 
+			log("INIT", "LOAD", "'program.lua' does not exist")
+		end
     end 
  end)
  
